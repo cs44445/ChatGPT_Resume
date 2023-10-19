@@ -3,12 +3,12 @@
     <h1 style="text-align:center;margin-bottom: 30px;">简历评分系统</h1>
     <a-form-model ref="form" :model="model" :rules="validatorRules">
       <a-form-model-item required prop="username">
-        <a-input v-model="model.username" size="large" placeholder="请输入用户名">
+        <a-input v-model="model.username" size="large" placeholder="请输入用户名" @change="handleName">
           <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
         </a-input>
       </a-form-model-item>
       <a-form-model-item required prop="password">
-        <a-input v-model="model.password" size="large" type="password" autocomplete="false" placeholder="请输入密码">
+        <a-input v-model="model.password" size="large" type="password" autocomplete="false" placeholder="请输入密码" @change="handlePassword">
           <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
         </a-input>
       </a-form-model-item>
@@ -16,7 +16,7 @@
       <a-row :gutter="0">
         <a-col :span="16">
           <a-form-model-item required prop="inputCode">
-            <a-input v-model="model.inputCode" size="large" type="text" placeholder="请输入验证码">
+            <a-input v-model="model.inputCode" size="large" type="text" placeholder="请输入验证码" @change="handleInputCode">
               <a-icon slot="prefix" type="smile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-model-item>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import cacheInLocalStorage from '../../utils/cacheInLocalStorage';
 
 export default {
   name: 'LoginAccount',
@@ -65,7 +66,17 @@ export default {
     }
   },
   created() {},
-  methods:{}
+  methods:{
+    handleName() {
+      cacheInLocalStorage.set('User_Name', this.model.username);
+    },
+    handlePassword() {
+      cacheInLocalStorage.set('User_Password', this.model.password);
+    },
+    handleInputCode() {
+      cacheInLocalStorage.set('User_Input_Code', this.model.inputCode);
+    }
+  }
 }
 </script>
 

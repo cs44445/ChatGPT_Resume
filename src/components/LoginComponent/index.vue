@@ -5,7 +5,7 @@
       <a-form-model-item>
       </a-form-model-item>
       <a-form-item style="margin-top:24px">
-        <a-button size="large"  type="primary"  htmlType="submit"  class="login-button">登&nbsp;&nbsp;&nbsp;&nbsp;录
+        <a-button size="large"  type="primary"  htmlType="submit"  class="login-button" @click="handleLogin">登&nbsp;&nbsp;&nbsp;&nbsp;录
         </a-button>
       </a-form-item>
     </a-form-model>
@@ -14,6 +14,7 @@
 
 <script>
   import LoginAccount from './LoginAccount'
+  import cacheInLocalStorage from '../../utils/cacheInLocalStorage';
 
   export default {
     name: "Login",
@@ -27,6 +28,12 @@
     beforeDestroy () {
       document.body.classList.remove('userLayout')
     },
+    methods: {
+      handleLogin() {
+        // To do: Call API to login in by UserInfo form localStorage
+        
+      }
+    }
   }
 </script>
 
