@@ -1,2 +1,15 @@
 node_modules
-/dist
+/.idea/.gitignore
+/.idea/codeStyles/codeStyleConfig.xml
+src/views/.DS_Store
+.DS_Store
+.gitignore
+.idea/misc.xml
+.idea/modules.xml
+.idea/project-manage-web.iml
+.idea/vcs.xml
+.idea/codeStyles/Project.xml
+.idea/inspectionProfiles/Project_Default.xml
+src/.DS_Store
+.gitignore
+
