@@ -14,7 +14,7 @@ import { axios } from '@/utils/request'
  */
 export function login(parameter) {
   return axios({
-    url: '/sys/login',
+    url: '/users/login',
     method: 'post',
     data: parameter
   })

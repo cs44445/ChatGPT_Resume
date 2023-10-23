@@ -146,8 +146,10 @@
             }
             console.log("登录参数", loginParams)
             this.Login(loginParams).then((res) => {
+              console.log('res0000000000',res)
               this.$emit('success', res.result)
             }).catch((err) => {
+              console.log('res1111111111',err)
               this.$emit('fail', err)
             });
           }else{

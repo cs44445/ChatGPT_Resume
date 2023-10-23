@@ -8,14 +8,13 @@
         <a-tab-pane key="2" tab="详情" force-render>
           <bus-supplier-detail :projectId="projectId" ref="supplierDetail" :data="details"></bus-supplier-detail>
         </a-tab-pane>
-        <a-tab-pane key="3" :tab="`服务类型(${serviceData ? serviceData.length : 0})`" force-render>
+        <!-- <a-tab-pane key="3" :tab="`服务类型(${serviceData ? serviceData.length : 0})`" force-render>
           <service-list :projectId="projectId" @ok="updateList" :data="serviceData"></service-list>
         </a-tab-pane>
         <a-tab-pane key="4" :tab="`银行信息(${bankData ? bankData.length : 0})`" force-render>
           <bank-list :projectId="projectId" @ok="updateList" :data="bankData"></bank-list>
         </a-tab-pane>
         <a-tab-pane key="5" :tab="`联系人(${personData ? personData.length : 0})`" force-render>
-          <!-- <bus-project-task-detail-list-form :projectId="projectId"/> -->
           <person-list :projectId="projectId" @ok="updateList" :data="personData"></person-list>
         </a-tab-pane>
         <a-tab-pane key="6" :tab="`工作者(${workerData ? workerData.length : 0})`" force-render>
@@ -26,7 +25,7 @@
         </a-tab-pane>
         <a-tab-pane key="8" :tab="`合同文件(${fileListDto ? fileListDto.length : 0})`" force-render v-if="fileShow">
           <supplier-documents-list :projectId="projectId" @ok="updateList"></supplier-documents-list>
-        </a-tab-pane>
+        </a-tab-pane> -->
       </a-tabs>
     </div>
 
