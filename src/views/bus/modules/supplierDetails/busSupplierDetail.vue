@@ -1,74 +1,169 @@
 <template>
     <div class="box-dist">
         <div style="display: flex;justify-content: end;">
-            <a-button type="primary" @click="detailEdit()">编辑</a-button>
+            <a-button type="primary" @click="detailEdit()" style="margin-right: 10px;">上传简历</a-button>
+            <a-button type="primary" @click="detailEdit()">编辑岗位</a-button>
         </div>
         <div style="margin: 20px 0;display: flex; flex-direction: row; flex-wrap:wrap;">
-            <a-card style="width: 46%; margin: 1%;" :bordered="false">
+            <a-card style="width: 32%; margin-right: 1%;" :bordered="false">
                 <p style="font-size: 16px;font-weight: bold;color: #2F3133;">基础信息</p>
                 <div style="padding: 10px 20px;">
                     <div style="display: flex;">
-                        <div class="commonTitleCss">供应商名称</div>
+                        <div class="commonTitleCss">学历</div>
                         <div class="budgetCss">{{ model.name }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">地区</div>
+                        <div class="commonTitleCss">工作年限</div>
                         <div class="budgetCss">{{ model.district_dictText }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">地址</div>
+                        <div class="commonTitleCss">英语证书</div>
                         <div class="budgetCss">{{ model.address }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">用户名</div>
+                        <div class="commonTitleCss">工作地点</div>
                         <div class="budgetCss">{{ model.userName }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">供应商后缀</div>
+                        <div class="commonTitleCss">技术栈</div>
                         <div class="budgetCss">{{ model.suffix }}</div>
                     </div>
-                    <div style="display: flex;margin-top: 16px;">
+                    <!-- <div style="display: flex;margin-top: 16px;">
                         <div class="commonTitleCss">备注</div>
                         <div class="budgetCss">{{ model.remark }}</div>
-                    </div>
+                    </div> -->
                 </div>
             </a-card>
-            <a-card style="width: 46%; margin: 1%;" :bordered="false">
-                <p style="font-size: 16px;font-weight: bold;color: #2F3133;">工商信息</p>
+            <a-card style="width: 32%; margin-right: 1%;" :bordered="false">
+                <p style="font-size: 16px;font-weight: bold;color: #2F3133;">额外信息</p>
                 <div style="padding: 10px 20px;">
                     <div style="display: flex;">
-                        <div class="commonTitleCss">企业类型</div>
+                        <div class="commonTitleCss">空档期判断</div>
                         <div class="budgetCss">{{ model.organizeType_dictText }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">法定代表人</div>
+                        <div class="commonTitleCss">假简历判断</div>
                         <div class="budgetCss">{{ model.operName }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">经营状态</div>
+                        <div class="commonTitleCss">换工作频率判断</div>
                         <div class="budgetCss">{{ model.operateStatus }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">成立日期</div>
+                        <div class="commonTitleCss">关键词</div>
                         <div class="budgetCss">{{ model.startDate }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">社会统一信用代码</div>
+                        <div class="commonTitleCss">关键词</div>
                         <div class="budgetCss">{{ model.creditNo }}</div>
                     </div>
-                    <div style="display: flex;margin-top: 16px;">
+                    <!-- <div style="display: flex;margin-top: 16px;">
                         <div class="commonTitleCss">组织类型</div>
+                        <div class="budgetCss">{{ model.organizeType_dictText }}</div>
+                    </div> -->
+                    <!-- <div style="display: flex;margin-top: 16px;">
+                        <div class="commonTitleCss">行业</div>
+                        <div class="budgetCss">{{ model.industryText }}</div>
+                    </div> -->
+                </div>
+            </a-card>
+            <a-card style="width: 32%; margin-right: 1%;" :bordered="false">
+                <p style="font-size: 16px;font-weight: bold;color: #2F3133;">职位描述</p>
+                <div style="padding: 10px 20px;">
+                    <div style="display: flex;">
+                        <div class="commonTitleCss">1.</div>
                         <div class="budgetCss">{{ model.organizeType_dictText }}</div>
                     </div>
                     <div style="display: flex;margin-top: 16px;">
-                        <div class="commonTitleCss">行业</div>
+                        <div class="commonTitleCss">2.</div>
+                        <div class="budgetCss">{{ model.operName }}</div>
+                    </div>
+                    <div style="display: flex;margin-top: 16px;">
+                        <div class="commonTitleCss">3.</div>
+                        <div class="budgetCss">{{ model.operateStatus }}</div>
+                    </div>
+                    <div style="display: flex;margin-top: 16px;">
+                        <div class="commonTitleCss">4.</div>
+                        <div class="budgetCss">{{ model.startDate }}</div>
+                    </div>
+                    <div style="display: flex;margin-top: 16px;">
+                        <div class="commonTitleCss">5.</div>
+                        <div class="budgetCss">{{ model.creditNo }}</div>
+                    </div>
+                    <div style="display: flex;margin-top: 16px;">
+                        <div class="commonTitleCss">6.</div>
+                        <div class="budgetCss">{{ model.organizeType_dictText }}</div>
+                    </div>
+                    <div style="display: flex;margin-top: 16px;">
+                        <div class="commonTitleCss">7.</div>
                         <div class="budgetCss">{{ model.industryText }}</div>
                     </div>
                 </div>
             </a-card>
-            <a-card style="width: 46%; margin: 1%;" :bordered="false">
-                <p style="font-size: 16px;font-weight: bold;color: #2F3133;">价格表</p>
-                <div style="padding: 10px 20px;">
+            <a-card style="width: 100%; margin-top: 1%;" :bordered="false">
+                <!-- <p style="font-size: 16px;font-weight: bold;color: #2F3133;">价格表</p> -->
+
+                
+                <a-table ref="table" :scroll="{ x: true }" rowKey="id" :columns="columns" :dataSource="dataSource" size="small"
+                :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }" :loading="loading"
+                :pagination="false" class="j-table-force-nowrap">
+                <template slot="fileName" slot-scope="text,record">
+                    <div class="table-item">
+                    <span>
+                        <img src="@/assets/word.png" alt="" v-if="record.fileSuffix == '.docx' || record.fileSuffix == '.doc'">
+                        <img src="@/assets/excel.png" alt=""
+                        v-else-if="record.fileSuffix == '.xlsx' || record.fileSuffix == '.xls'">
+                        <img src="@/assets/pdf.png" alt="" v-else-if="record.fileSuffix == '.pdf'">
+                        <img src="@/assets/zip.png" alt="" v-else-if="record.fileSuffix == '.zip' || record.fileSuffix == '.rar'">
+                        <img src="@/assets/imgicon.png" alt=""
+                        v-else-if="record.fileSuffix == '.png' || record.fileSuffix == '.jpg' || record.fileSuffix == '.jpeg' || record.fileSuffix == '.gif'">
+                        <img src="@/assets/other.png" style="width:unset;" alt="" v-else>
+                    </span>
+                    <div class="table-item-con">
+                        <div class="con-title">{{ record.fileName }}</div>
+                        <div class="con-desc"><span>{{ record.milepostName }}</span><span>{{ record.createBy
+                        }}</span><span>{{ record.createTime }}</span><span>{{ record.fileSize }}</span>
+                        </div>
+                    </div>
+                    </div>
+                </template>
+                <span slot="action" slot-scope="text, record" class="fix-action"
+                    style="gap:30px;justify-content: flex-end;padding-right: 30px;">
+                    <a-tooltip v-if="record.fileSuffix == '.docx' || record.fileSuffix == '.xlsx'">
+                    <template slot="title">
+                        查看
+                    </template>
+                    <span @click="handleOnlineDetail(record)"><img src="@/assets/see.png" class="activeLogoCss"
+                        alt="logo"></span>
+                    </a-tooltip>
+                    <a-tooltip v-if="record.fileSuffix == '.png' || record.fileSuffix == '.jpg' || record.fileSuffix == '.jpeg' || record.fileSuffix == '.gif'">
+                        <template slot="title">
+                            查看
+                        </template>
+                        <span @click="handlePicView(record.filePath)" >
+                            <img src="@/assets/see.png" class="activeLogoCss" alt="logo">
+                        </span>
+                    </a-tooltip>
+                    <a-tooltip>
+                    <template slot="title">
+                        下载
+                    </template>
+                    <span @click="downloadFile(record.filePath)"><img src="@/assets/download.png" class="activeLogoCss"
+                        alt="logo"></span>
+                    </a-tooltip>
+                    <a-tooltip v-if="record.fileSuffix == '.docx' || record.fileSuffix == '.xlsx'">
+                    <template slot="title">
+                        编辑
+                    </template>
+                    <span @click="handleOnlineEdit(record)"><img src="@/assets/edit2.png" class="activeLogoCss"
+                        alt="logo"></span>
+                    </a-tooltip>
+                    <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)" v-has="'projectdocuments:details'">
+                    <span><img src="@/assets/del2.png" class="activeLogoCss" alt="logo"></span>
+                    </a-popconfirm>
+                </span>
+                </a-table>
+                <!-- <div style="padding: 10px 20px;">
                     <div class="pricelist">
                         <div class="cell">职位</div>
                         <div class="cell">时薪（元）</div>
@@ -86,9 +181,9 @@
                         </div>
                         <div class="cell">{{ item.createTime }}</div>
                     </div>
-                </div>
+                </div> -->
             </a-card>
-            <a-card style="width: 46%; margin: 1%;" :bordered="false">
+            <!-- <a-card style="width: 46%; margin: 1%;" :bordered="false">
                 <p style="font-size: 16px;font-weight: bold;color: #2F3133;">关联项目</p>
                 <div style="padding: 10px 20px;">
                     <div class="pricelist">
@@ -104,7 +199,7 @@
                         <div class="cell40">{{ item.startTime }}~{{ item.endTime }}</div>
                     </div>
                 </div>
-            </a-card>
+            </a-card> -->
         </div>
         <bus-company-modal ref="modalForm" @ok="updateList"></bus-company-modal>
     </div>
@@ -125,6 +220,7 @@ export default {
         return {
             url: {
                 detail: 'bus/busCompany/queryById',
+                fileListByProjectId: '/bus/busFileOnline/list',//列表
             },
             // projectDetail:{},
             model: {
@@ -141,7 +237,58 @@ export default {
                 remark: ''
             },
             pricelist: [],
-            projectlist: []
+            projectlist: [],
+            dataSource: null,
+            columns: [
+                {
+                title: '文件名',
+                align: "left",
+                dataIndex: 'fileName',
+                scopedSlots: { customRender: 'fileName' }
+                },
+                {
+                title: '总分',
+                align: "left",
+                dataIndex: 'fileName',
+                scopedSlots: { customRender: 'fileName' }
+                },
+                {
+                title: '学历',
+                align: "left",
+                dataIndex: 'fileName',
+                scopedSlots: { customRender: 'fileName' }
+                },
+                {
+                title: '工作年限',
+                align: "left",
+                dataIndex: 'fileName',
+                scopedSlots: { customRender: 'fileName' }
+                },
+                {
+                title: '英语能力',
+                align: "left",
+                dataIndex: 'fileName',
+                scopedSlots: { customRender: 'fileName' }
+                },
+                {
+                title: '工作地点',
+                align: "left",
+                dataIndex: 'fileName',
+                scopedSlots: { customRender: 'fileName' }
+                },
+                {
+                title: '加分项',
+                align: "left",
+                dataIndex: 'fileName',
+                scopedSlots: { customRender: 'fileName' }
+                },
+                {
+                title: '操作',
+                dataIndex: 'action',
+                align: "center",
+                scopedSlots: { customRender: 'action' }
+                }
+            ],
 
         };
     },
@@ -175,6 +322,20 @@ export default {
             this.getDetails()
             this.$emit('ok');
         },
+    //文件列表
+    handleList(projectId, queryParam) {
+      getAction(this.url.fileListByProjectId, { ...{ projectId }, ...queryParam }).then((res) => {
+        if (res.success) {
+          this.dataSource = res.result.records
+          this.selectedRows = []
+          this.selectedRowKeys = []
+        } else {
+          this.dataSource = []
+          this.selectedRows = []
+          this.selectedRowKeys = []
+        }
+      })
+    },
     },
 };
 </script>
