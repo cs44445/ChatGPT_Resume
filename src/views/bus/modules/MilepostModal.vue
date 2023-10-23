@@ -23,50 +23,48 @@
         <a-col :span="17">
           <div class="steps-right">
             <div class="steps-content">
-              {{ current }}
+              <!-- {{ current }} -->
               <a-form-model ref="stepform" :model="model" slot="detail" :rules="validatorRules">
                 <a-row style="height:500px;overflow-y:scroll;">
                   
                 <!-- 1.Job information -->
                 <template v-if="current === 0">
                   <a-row style="height:500px;overflow-y:scroll;">
-                      <a-col :span="24" style="position:relative;padding: 0 20px;" class="no-line-height">
-                        <a-form-model-item label="职位名称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="milepostCode"
-                          colon="false" style="margin-bottom:12px;">
-                          <a-auto-complete v-model="model.milepostCode" :data-source="selectDictOptions" placeholder="测试工程师"
-                            @change="onSelectChange" />
-                        </a-form-model-item>
-                        <a-form-model-item label="职位描述" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="owner"
-                          colon="false" style="margin-bottom:12px;">
-                          <a-textarea></a-textarea>
-                        </a-form-model-item>
-                      </a-col>
-                    </a-row>
+                    <a-col :span="24" style="position:relative;padding: 0 20px;" class="no-line-height">
+                      <a-form-model-item label="职位名称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="milepostCode"
+                        colon="false" style="margin-bottom:12px;">
+                        <a-input v-model="basicInfo.title" @change="onChangeTitle"></a-input>
+                      </a-form-model-item>
+                      <a-form-model-item label="职位描述" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="owner"
+                        colon="false" style="margin-bottom:12px;">
+                        <a-textarea v-model="jobDescription" @change="onChangeJobDes"></a-textarea>
+                      </a-form-model-item>
+                    </a-col>
+                  </a-row>
 
                 </template>
 
                 <!-- 2.Basic info -->
                 <template v-if="current === 1">
-                  <!-- year -->
+                  <!-- range -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? '工作年限' : ''"
-                        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
+                      <a-form-model-item
+                        label="工作年限" v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="工作年限" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="1-3年" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
+                              <a-select placeholder="不限" :allowClear="true" @change="onChangeRange">
+                                <a-select-option v-for="(item, key) in rangeList" :key="key" :value="item.range">
+                                  {{ item.range }}
                                 </a-select-option>
                               </a-select>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.rangeScore" style="width:100%;" @change="onChangeRangeScore"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -80,7 +78,7 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.rangeScoreRule" @change="onChangeRangeScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
@@ -90,23 +88,17 @@
                   <!-- address -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? '工作地点' : ''"
-                        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
+                      <a-form-model-item label="工作地点" v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="工作地点" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="1-3年" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
-                                </a-select-option>
-                              </a-select>
+                              <a-input v-model="basicInfo.address" @change="onChangeAddress"></a-input>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.addressScore" style="width:100%;" @change="onChangeAddressScore"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -120,7 +112,7 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.addressScoreRule" @change="onChangeAddressScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
@@ -138,15 +130,15 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="学历要求" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="1-3年" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
+                              <a-select placeholder="不限" :allowClear="true" @change="onChangeDegree">
+                                <a-select-option v-for="(item, key) in degreeClassification" :key="key" :value="item.degree">
+                                  {{ item.degree }}
                                 </a-select-option>
                               </a-select>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.degreeScore" style="width:100%;" @change="onChangeDegreeScore"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -160,7 +152,7 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.degreeScoreRule" @change="onChangeDegreeScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
@@ -173,29 +165,27 @@
                   <!-- certificate -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? '英语证书' : ''"
+                      <a-form-model-item label="英语证书"
                         v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="英语证书" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="1-3年" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
+                              <a-select placeholder="不限" :allowClear="true" @change="onChangeCertificate">
+                                <a-select-option v-for="(item, key) in EnglishCertificate" :key="key" :value="item.certificate">
+                                  {{ item.certificate }}
                                 </a-select-option>
                               </a-select>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.rangeScore" style="width:100%;" @change="onChangeCertificateScore"/>
                             </a-form-model-item>
                           </div>
                         </div>
                       </a-form-model-item>
                     </a-col>
-                    <!-- speaking -->
                     <a-col :span="24" style="padding: 0 20px;">
                       <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
                         v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
@@ -204,12 +194,13 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.certificateScoreRule" @change="onChangeCertificateScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
                     </a-col>
                   </template>
+
                   <!-- listening -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
@@ -221,15 +212,11 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="英语听力" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="1-3年" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
-                                </a-select-option>
-                              </a-select>
+                              <a-input v-model="basicInfo.listening" @change="onChangeListening"></a-input>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.listeningScore" style="width:100%;" @change="onChangeListeningScore"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -243,7 +230,7 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.listeningScoreRule" @change="onChangeListeningScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
@@ -256,23 +243,21 @@
                   <!-- gap -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? '空窗期判断' : ''"
-                        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
+                      <a-form-model-item label="空窗期判断" v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
-                            <a-form-model-item label="空窗期" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
+                            <a-form-model-item label="空窗期判断" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="是" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
+                              <a-select placeholder="是" :allowClear="true" @change="onChangeGap">
+                                <a-select-option v-for="(item, key) in gapOption" :key="key" :value="item.option">
+                                  {{ item.option }}
                                 </a-select-option>
                               </a-select>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.gapScore" style="width:100%;" @change="onChangeGapScore"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -286,7 +271,7 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.gapScoreRule" @change="onChangeGapScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
@@ -296,23 +281,22 @@
                   <!-- efficiency -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? '工作效率判断' : ''"
+                      <a-form-model-item label="工作效率"
                         v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="工作效率" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="1-3年" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
+                              <a-select placeholder="不限" :allowClear="true" @change="onChangeEfficiency">
+                                <a-select-option v-for="(item, key) in rangeList" :key="key" :value="item.range">
+                                  {{ item.range }}
                                 </a-select-option>
                               </a-select>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.efficiencyScore" style="width:100%;" @change="onChangeEfficiencyScore"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -326,33 +310,31 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.efficiencyScoreRule" @change="onChangeEfficiencyScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
                     </a-col>
                   </template>
 
-                  <!-- true & false -->
+                  <!-- fake -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? '假简历判断' : ''"
-                        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
+                      <a-form-model-item label="假简历判断" v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
-                            <a-form-model-item label="假简历" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
+                            <a-form-model-item label="假简历判断" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="是" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
+                              <a-select placeholder="是" :allowClear="true" @change="onChangeFake">
+                                <a-select-option v-for="(item, key) in fakeOption" :key="key" :value="item.option">
+                                  {{ item.option }}
                                 </a-select-option>
                               </a-select>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.fakeScore" style="width:100%;" @change="onChangeFakeScore"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -366,7 +348,7 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.fakeScoreRule" @change="onChangeFakeScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
@@ -376,26 +358,20 @@
 
                 <!-- 5.Professional skill -->
                 <template v-if="current === 4">
-                  <!-- keywords -->
+                  <!-- keyword1 -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? '专业技能' : ''"
-                        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
+                      <a-form-model-item label="专业技能" v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="关键词" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="测试工程师" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
-                                </a-select-option>
-                              </a-select>
+                              <a-input v-model="basicInfo.keyword1" @change="onChangeKeyword1"></a-input>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.keyword1Score" style="width:100%;" @change="onChangeonChangeKeyword1Score"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -409,33 +385,27 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.keyword1ScoreRule" @change="onChangeonChangeKeyword1ScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
                     </a-col>
                   </template>
 
-                  <!-- keywords -->
+                  <!-- keyword2 -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? '关键词' : ''"
-                        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
+                      <a-form-model-item label="专业技能" v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
-                            <a-form-model-item label="自动化测试" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
+                            <a-form-model-item label="关键词" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="1-3年" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
-                                </a-select-option>
-                              </a-select>
+                              <a-input v-model="basicInfo.keyword2" @change="onChangeKeyword2"></a-input>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.keyword2Score" style="width:100%;" @change="onChangeonChangeKeyword2Score"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -449,7 +419,7 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.keyword2ScoreRule" @change="onChangeonChangeKeyword2ScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
@@ -459,26 +429,20 @@
 
                 <!-- 6.Plus section -->
                 <template v-if="current === 5">
-                  <!-- keywords -->
+                  <!-- plusKeyword1 -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? 'PLUS部分' : ''"
-                        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
+                      <a-form-model-item label="专业技能" v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="关键词" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="测试工程师" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
-                                </a-select-option>
-                              </a-select>
+                              <a-input v-model="basicInfo.plusKeyword1" @change="onChangePlusKeyword1"></a-input>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.plusKeyword1Score" style="width:100%;" @change="onChangeonChangePlusKeyword1Score"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -492,33 +456,27 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.plusKeyword1ScoreRule" @change="onChangeonChangePlusKeyword1ScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
                     </a-col>
                   </template>
 
-                  <!-- keywords -->
+                  <!-- plusKeyword2 -->
                   <template>
                     <a-col :span="24" style="padding: 0 20px;">
-                      <a-form-model-item v-for="(domain, index) in model.milepostLaborList" :key="domain.key"
-                        :label="index === 0 ? 'Plus' : ''"
-                        v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
+                      <a-form-model-item label="专业技能" v-bind="index === 0 ? formItemLayout : formItemLayoutWithOutLabel" colon="false"
                         style="margin-bottom:0;width:100%;" :labelCol="{ span: 24 }">
                         <div style="background: #ebebed;">
                           <div style="display:flex;justify-content: space-between;width: 100%;">
-                            <a-form-model-item label="自动化测试" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
+                            <a-form-model-item label="关键词" :labelCol="{ span: 8 }" :wrapperCol="{ span: 16 }" colon="false"
                               style="width:45%;margin-bottom:0;">
-                              <a-select v-model="domain.costRoleId" placeholder="1-3年" :allowClear="true">
-                                <a-select-option v-for="(item, key) in laborRoleList" :key="key" :value="item.id">
-                                  {{ item.roleName }}
-                                </a-select-option>
-                              </a-select>
+                              <a-input v-model="basicInfo.plusKeyword2" @change="onChangePlusKeyword2"></a-input>
                             </a-form-model-item>
                             <a-form-model-item label="分数" :labelCol="{ span: 14 }" :wrapperCol="{ span: 10 }"
                               colon="false" style="width:30%;margin-right:22px;">
-                              <a-input-number :min="0" v-model.lazy="domain.estimatedHours" style="width:100%;" />
+                              <a-input-number :min="0" v-model.lazy="basicInfo.plusKeyword2Score" style="width:100%;" @change="onChangeonChangePlusKeyword2Score"/>
                             </a-form-model-item>
                           </div>
                         </div>
@@ -532,7 +490,7 @@
                           <div style="display:flex;justify-content: space-between;width: 100%;">
                             <a-form-model-item label="评分依据" colon="false">
                             </a-form-model-item>
-                            <a-textarea style="margin-right: 20px;"></a-textarea>
+                            <a-textarea style="margin-right: 20px;" v-model="basicInfo.plusKeyword2ScoreRule" @change="onChangeonChangePlusKeyword2ScoreRule"></a-textarea>
                           </div>
                         </div>
                       </a-form-model-item>
@@ -548,21 +506,7 @@
     </a-spin>
     <template slot="footer">
       <div class="footer-btn">
-        <a-popconfirm @confirm="() => handleCancel()">
-          <template v-if="tips == 'add'" slot="title">
-            <div>
-              <p>确定取消吗?</p>
-              <p>现在取消将清空本次创建的所有里程碑！</p>
-            </div>
-          </template>
-          <template v-else slot="title">
-            <div>
-              <p>确定取消吗?</p>
-              <p>现在取消本次修改的里程碑将失效！</p>
-            </div>
-          </template>
-          <a-button key="back"> 取消 </a-button>
-        </a-popconfirm>
+        <a-button key="back" @click="changeCancel"> 取消 </a-button>
         <a-button key="submit" type="primary" @click="handleOk"> 提交 </a-button>
       </div>
     </template>
@@ -588,6 +532,7 @@ export default {
         // {name:'shejishi',children:[{name:'111'}]},
         // {name:'gcs',children:[{name:'222'}]}
       ],
+      jobDescription: '',
       leaderList: [],//负责人列表
       laborRoleList: [],//角色列表
       current: 0, //步骤条
@@ -663,8 +608,8 @@ export default {
         estimatedOtherCost: 0,//预估其他费用
       },
       validatorRules: {
-        milepostCode: [{ required: true, message: '请选择里程碑!' }],
-        owner: [{ required: true, message: '请选择负责人!' }],
+        // milepostCode: [{ required: true, message: '请输入职位名称!' }],
+        // owner: [{ required: true, message: '请输入职职位描述!' }],
         beginTime: [{ required: true, message: '请选择周期' }],
         estimatedProcurementCost: [{ required: true, message: '请输入预估采购成本!' }],
         estimatedTravelCost: [{ required: true, message: '请输入预估差旅费用!' }],
@@ -697,6 +642,73 @@ export default {
         leaderUrl: '/bus/busProjectUser/queryUserInfoByProjectId',
         getDeleteStatus: '/bus/busProjectMilepost/getDeleteStatus',
         milepostRoleList: '/bus/busProjectMilepost/milepostRoleList'
+      },
+      rangeList: [
+        {id:1, range: '不限'},
+        {id:2, range: '应届生'},
+        {id:3, range: '1-3年'},
+        {id:4, range: '3-5年'},
+        {id:5, range: '5-10年'},
+        {id:6, range: '10年以上'},
+      ],
+      degreeClassification: [
+        {id:1, degree: '不限'},
+        {id:2, degree: '大专'},
+        {id:3, degree: '本科'},
+        {id:4, degree: '硕士'},
+        {id:5, degree: '博士'},
+      ],
+      EnglishCertificate: [
+        {id:1, certificate: '四级'},
+        {id:2, certificate: '六级'},
+        {id:3, certificate: '专八'},
+      ],
+      gapOption: [
+        {id:1, option: '是'},
+        {id:2, option: '否'},
+      ],
+      fakeOption: [
+        {id:1, option: '是'},
+        {id:2, option: '否'},
+      ],
+      basicInfo: {
+        title:'',
+        selectRange: '',
+        rangeScore: '',
+        rangeScoreRule:'',
+        address:'',
+        addressScore:'',
+        addressScoreRule:'',
+        degree:'',
+        degreeScore:'',
+        degreeScoreRule:'',
+        certificate:'',
+        certificateScore:'',
+        certificateScoreRule:'',
+        listening:'',
+        listeningScore:'',
+        listeningScoreRule:'',
+        isGap: '',
+        gapScore: '',
+        gapScoreRule: '',
+        efficiency: '',
+        efficiencyScore: '',
+        efficiencyScoreRule: '',
+        isFake: '',
+        fakeScore: '',
+        fakeScoreRule: '',
+        keyword1:'',
+        keyword1Score:'',
+        keyword1ScoreRule:'',
+        keyword2:'',
+        keyword2Score:'',
+        keyword2ScoreRule:'',
+        plusKeyword1:'',
+        plusKeyword1Score:'',
+        plusKeyword1ScoreRule:'',
+        plusKeyword2:'',
+        plusKeyword2Score:'',
+        plusKeyword2ScoreRule:'',  
       },
     }
   },
@@ -781,17 +793,127 @@ export default {
     getRoleList() {
       postAction(this.url.milepostRoleList).then((res) => {
         if (res.success && res.result.length != 0) {
-          // console.log('this.laborRoleList: ', res)
           this.laborRoleList = res.result
         } else {
           this.laborRoleList = []
         }
       })
     },
-    // 选择里程碑
-    onSelectChange(value) {
-      this.model.milepostCode = value
-      //   console.log('onChange', this.model.milepostCode)
+    // 选择职位名称
+    onChangeTitle(value) {
+      // this.model.milepostCode = value
+    },
+    onChangeJobDes(value) {
+      console.log('onChange-------JOJO', this.jobDescription)
+    },
+    onChangeRange(value) {
+      console.log('value---',value);
+      this.basicInfo.selectRange = value;
+    },
+    onChangeRangeScore(value) {
+      this.basicInfo.rangeScore = value;
+    },
+    onChangeRangeScoreRule(value) {
+
+    },
+    onChangeAddress(value) {
+      console.log('onChange-------JOJO', this.basicInfo.address);
+    },
+    onChangeAddressScore(value) {
+      
+    },
+    onChangeAddressScoreRule(value) {
+      
+    },
+    onChangeDegree(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeDegreeScore(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeDegreeScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeCertificate(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeCertificateScore(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeCertificateScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeListening(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeListeningScore(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeListeningScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeGap(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeGapScore(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeGapScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeFake(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeFakeScore(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeFakeScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeEfficiency(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeEfficiencyScore(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeEfficiencyScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeKeyword1(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeonChangeKeyword1Score(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeonChangeKeyword1ScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeKeyword2(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeonChangeKeyword2Score(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeonChangeKeyword2ScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangePlusKeyword1(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeonChangePlusKeyword1Score(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeonChangePlusKeyword1ScoreRule(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangePlusKeyword2(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeonChangePlusKeyword2Score(value) {
+      // this.basicInfo.selectRange = value;
+    },
+    onChangeonChangePlusKeyword2ScoreRule(value) {
+      // this.basicInfo.selectRange = value;
     },
     handleChange(value) {
       // console.log(`selected ${value}`)
@@ -1042,38 +1164,22 @@ export default {
       this.stepsInit[this.current].status = 'process'
       // this.model = this.stepsAll[this.current]
       console.log('this.stepsAll---', this.stepsAll,'this.current', this.current)
-      this.model.id = this.stepsAll[this.current].id
-      this.model.milepostCode = this.stepsAll[this.current].milepostCode
-      this.model.owner = this.stepsAll[this.current].owner
-      this.model.period = this.stepsAll[this.current].period
-      this.model.beginTime = this.stepsAll[this.current].beginTime
-      this.model.endTime = this.stepsAll[this.current].endTime
-      this.model.milepostLaborList = (this.stepsAll[this.current].milepostLaborList && this.stepsAll[this.current].milepostLaborList.length > 0) ? this.stepsAll[this.current].milepostLaborList : [{ costRoleId: undefined, estimatedHours: '' }]
-      this.model.estimatedProcurementCost = this.stepsAll[this.current].estimatedProcurementCost
-      this.model.estimatedTravelCost = this.stepsAll[this.current].estimatedTravelCost
-      this.model.estimatedSubcontractingCost = this.stepsAll[this.current].estimatedSubcontractingCost
-      this.model.estimatedOtherCost = this.stepsAll[this.current].estimatedOtherCost
-      // console.log('步骤条切换', current, this.stepsInit, this.stepsAll)
+      // this.model.id = this.stepsAll[this.current].id
+      // this.model.milepostCode = this.stepsAll[this.current].milepostCode
+      // this.model.owner = this.stepsAll[this.current].owner
+      // this.model.period = this.stepsAll[this.current].period
+      // this.model.beginTime = this.stepsAll[this.current].beginTime
+      // this.model.endTime = this.stepsAll[this.current].endTime
+      // this.model.milepostLaborList = (this.stepsAll[this.current].milepostLaborList && this.stepsAll[this.current].milepostLaborList.length > 0) ? this.stepsAll[this.current].milepostLaborList : [{ costRoleId: undefined, estimatedHours: '' }]
+      // this.model.estimatedProcurementCost = this.stepsAll[this.current].estimatedProcurementCost
+      // this.model.estimatedTravelCost = this.stepsAll[this.current].estimatedTravelCost
+      // this.model.estimatedSubcontractingCost = this.stepsAll[this.current].estimatedSubcontractingCost
+      // this.model.estimatedOtherCost = this.stepsAll[this.current].estimatedOtherCost
+      console.log('步骤条切换', current, this.stepsInit, this.stepsAll)
     },
     switchArray(arr, index1, index2) {
       arr[index1] = arr.splice(index2, 1, arr[index1])[0]
       return arr
-    },
-    // 上移
-    prev() {
-      if (this.current == 0) this.current = this.stepsInit - 1;
-      // this.stepsInit = this.switchArray(this.stepsInit, this.current - 1, this.current)
-      // this.stepsAll = this.switchArray(this.stepsAll, this.current - 1, this.current)
-      this.onChange(this.current - 1)
-      // console.log('上移', this.current, this.stepsInit, this.stepsAll)
-    },
-    // 下移
-    next() {
-      if (this.current == this.stepsInit - 1) this.current = 0;
-      // this.stepsInit = this.switchArray(this.stepsInit, this.current, this.current + 1)
-      // this.stepsAll = this.switchArray(this.stepsAll, this.current, this.current + 1)
-      this.onChange(this.current + 1)
-      // console.log('下移', this.current, this.stepsInit, this.stepsAll)
     },
     // 提交里程碑
     handleOk() {
@@ -1101,54 +1207,57 @@ export default {
         this.$message.warning('请填写并保存各阶段里程碑信息')
       }
     },
+    changeCancel() {
+      this.visible = false
+    },
     // 取消里程碑
     handleCancel() {
       this.visible = false
-      this.stepsInit = [
-        {
-          title: '暂未命名',
-          disabled: false,
-          saveFlag: false,
-          status: 'process',
-        },
-      ]
-      this.stepsAll = [
-        {
-          id: null,
-          milepostCode: null,
-          owner: undefined,
-          period: [],
-          beginTime: null,
-          endTime: null,
-          milepostLaborList: [
-            {
-              costRoleId: undefined,//角色
-              estimatedHours: '',//工时
-            }
-          ],//预估人力成本
-          estimatedProcurementCost: 0,//预估采购成本
-          estimatedTravelCost: 0,//预估差旅费用
-          estimatedSubcontractingCost: 0,//预估分包费用
-          estimatedOtherCost: 0,//预估其他费用
-        },
-      ]
-      this.model.id = null
-      this.model.milepostCode = null
-      this.model.owner = undefined
-      this.model.period = []
-      this.model.beginTime = null
-      this.model.endTime = null
-      this.model.milepostLaborList = [//预估人力成本
-        {
-          costRoleId: undefined,//角色
-          estimatedHours: '',//工时
-        }
-      ]
-      this.model.estimatedProcurementCost = 0
-      this.model.estimatedTravelCost = 0
-      this.model.estimatedSubcontractingCost = 0
-      this.model.estimatedOtherCost = 0
-      this.current = 0
+      // this.stepsInit = [
+      //   {
+      //     title: '暂未命名',
+      //     disabled: false,
+      //     saveFlag: false,
+      //     status: 'process',
+      //   },
+      // ]
+      // this.stepsAll = [
+      //   {
+      //     id: null,
+      //     milepostCode: null,
+      //     owner: undefined,
+      //     period: [],
+      //     beginTime: null,
+      //     endTime: null,
+      //     milepostLaborList: [
+      //       {
+      //         costRoleId: undefined,//角色
+      //         estimatedHours: '',//工时
+      //       }
+      //     ],//预估人力成本
+      //     estimatedProcurementCost: 0,//预估采购成本
+      //     estimatedTravelCost: 0,//预估差旅费用
+      //     estimatedSubcontractingCost: 0,//预估分包费用
+      //     estimatedOtherCost: 0,//预估其他费用
+      //   },
+      // ]
+      // this.model.id = null
+      // this.model.milepostCode = null
+      // this.model.owner = undefined
+      // this.model.period = []
+      // this.model.beginTime = null
+      // this.model.endTime = null
+      // this.model.milepostLaborList = [//预估人力成本
+      //   {
+      //     costRoleId: undefined,//角色
+      //     estimatedHours: '',//工时
+      //   }
+      // ]
+      // this.model.estimatedProcurementCost = 0
+      // this.model.estimatedTravelCost = 0
+      // this.model.estimatedSubcontractingCost = 0
+      // this.model.estimatedOtherCost = 0
+      // this.current = 0
     },
     //日期组件
     disabledStartDate(startValue) {
@@ -1202,7 +1311,7 @@ export default {
 .footer-btn {
   padding: 10px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 div:has(.footer-btn) {
@@ -1230,7 +1339,7 @@ div:has(.footer-btn) {
 }
 
 .no-line-height /deep/ .ant-form-item-label {
-  line-height: 0px;
+  // line-height: 0px;
 }
 
 .steps-content {
