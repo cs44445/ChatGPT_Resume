@@ -1,28 +1,52 @@
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+  <a-config-provider :locale="locale">
+    <div id="app">
+      <router-view/>
+    </div>
+  </a-config-provider>
 </template>
+<script>
+  import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+  import enquireScreen from '@/utils/device'
+  // import DevicePixelRatio from './utils/devicePixelRatio'
+  export default {
+    data () {
+      return {
+        locale: zhCN,
+      }
+    },
+    created () {
+      // new DevicePixelRatio().init()
+      let that = this
+      enquireScreen(deviceType => {
+        // tablet
+        if (deviceType === 0) {
+          that.$store.commit('TOGGLE_DEVICE', 'mobile')
+          that.$store.dispatch('setSidebar', false)
+        }
+        // mobile
+        else if (deviceType === 1) {
+          that.$store.commit('TOGGLE_DEVICE', 'mobile')
+          that.$store.dispatch('setSidebar', false)
+        }
+        else {
+          that.$store.commit('TOGGLE_DEVICE', 'desktop')
+          that.$store.dispatch('setSidebar', true)
+        }
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+      })
     }
   }
-}
+</script>
+<style>
+  @import './assets/fonts/fonts.css';
+  #app {
+    height: 100%;
+  }
+  body{
+    font-family: '-apple-system, BlinkMacSystemFont, Source Han Sans CN, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-seri' !important;
+    /* font-family: 'Source Han Sans CN' !important; */
+    /* font-weight: 600 !important; */
+    font-size: 14px !important;
+  }
 </style>

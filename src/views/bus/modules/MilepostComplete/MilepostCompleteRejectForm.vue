@@ -1,0 +1,153 @@
+<template>
+  <a-spin :spinning="confirmLoading">
+    单据号：{{ model.recCode }}
+    <a-divider />
+    <landmark-form ref="realForm"></landmark-form>
+    <a-divider />
+    <a-col :span="24">
+      <a-form-model-item label="补充说明" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="note">
+        <a-textarea v-model="model.note" placeholder="请补充说明" disabled />
+      </a-form-model-item>
+    </a-col>
+    <a-divider />
+    <process-history :processId="busApplyRejectForm.instanceId" />
+    <!-- 处理意见 -->
+    <a-row>
+      <a-col :xs="24" :sm="8">
+        <a-form-model-item label="处理意见：" :labelCol="labelCol2" :wrapperCol="wrapperCol">
+          <j-dict-select-tag
+            @change="opinionsChange"
+            type="list"
+            v-model="model.handleOpinions"
+            dictCode="opinions" style="width:100%;"
+            placeholder="常用审批语"
+          />
+        </a-form-model-item>
+      </a-col>
+      <a-col :xs="24" :sm="24">
+        <a-form-model-item label :labelCol="labelCol" :wrapperCol="wrapperCol2">
+          <a-textarea v-model="model.handleOpinions2" :auto-size="{ minRows: 3, maxRows: 5 }"></a-textarea>
+        </a-form-model-item>
+      </a-col>
+    </a-row>
+  </a-spin>
+</template>
+
+<script>
+  import { postAction, getAction } from '@/api/manage'
+  import ProcessHistory from '../ProcessHistory'
+  import { FormTypes, getRefPromise, VALIDATE_NO_PASSED } from '@/utils/JEditableTableUtil'
+  import { JEditableTableModelMixin } from '@/mixins/JEditableTableModelMixin'
+  import { validateDuplicateValue } from '@/utils/util'
+  import {ajaxGetDictItems} from "../../../../api/api";
+  import LandmarkForm from '../../modules/LandmarkForm'
+  export default {
+    name: 'MilepostCompleteRejectForm',
+    mixins: [JEditableTableModelMixin],
+    components: { ProcessHistory,LandmarkForm},
+    data() {
+      return {
+        labelCol: {
+          xs: { span: 24 },
+          sm: { span: 2 },
+        },
+        wrapperCol: {
+          xs: { span: 24 },
+          sm: { span: 22 },
+        },
+        labelCol2: {
+          xs: { span: 24 },
+          sm: { span: 4 },
+        },
+        wrapperCol2: {
+          xs: { span: 24 },
+          sm: { span: 24 },
+        },
+        model: {},
+        url: {
+          details: '/bus/busProjectUser/queryById',
+          queryById:'/bus/busProjectMilepost/queryById',
+          passUrl: 'bus/busProjectMilepost/applyPass'
+        },
+        opinionsDict:[],
+      }
+    },
+    props: {
+      //表单禁用
+      disabled: {
+        type: Boolean,
+        default: false,
+        required: false,
+      },
+      busApplyRejectForm: {},
+    },
+    computed: {
+      formDisabled() {
+        return this.disabled
+      },
+    },
+    created() {
+      this.loadData(this.busApplyRejectForm)
+    },
+    mounted() {},
+    methods: {
+      loadData(record) {
+        getAction(this.url.queryById, {
+          id: record.apprId,
+        }).then((res) => {
+          if (res.success) {
+            console.log(res.result,'res.resultres.resultres.result---')
+            this.model = res.result
+            this.$refs.realForm.edit(res.result)
+          }
+        })
+        ajaxGetDictItems('opinions', null).then((res) => {
+          if (res.success) {
+            this.opinionsDict = res.result
+          }
+        })
+      },
+      opinionsChange(val) {
+        this.opinionsDict.map((item) => {
+          if (item.value === val) {
+            this.model.handleOpinions2 = item.text
+          }
+        })
+      },
+      close() {
+        this.visible = false
+        this.$emit('close')
+        this.$refs.form.clearValidate()
+      },
+      handleSubmit(status){
+        let that = this
+
+        //如果表单有变化，需要在此处保存表单
+
+
+
+        let params = {
+          apprId: that.busApplyRejectForm.apprId,
+          taskId: that.busApplyRejectForm.taskId,
+          instanceId: that.busApplyRejectForm.instanceId,
+          submitUser: that.busApplyRejectForm.submitUser,
+          apprStatus: status, //1通过  2驳回
+          apprRemark: that.model.handleOpinions2,
+          remark: ''
+        }
+        postAction(that.url.passUrl, params).then(res => {
+          if (res.success) {
+            that.$message.success(res.message)
+            that.$emit('addok')
+          } else {
+            that.$message.warning(res.message)
+          }
+        })
+
+      }
+    },
+  }
+</script>
+
+<style scoped>
+</style>

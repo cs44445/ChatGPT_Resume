@@ -1,0 +1,36 @@
+/* small表格去掉边框 */
+.ant-table-small{
+    border:none
+}
+/* 下拉选择框的样式 */
+.tablePageQueryCss .ant-select-selection,.tablePageQueryCss{
+    background-color: #E8EEF7;
+}
+/* 日历的样式 */
+.tablePageQueryCss .ant-calendar-picker-input{
+    background-color: #E8EEF7;
+}
+/* 一般按钮的样式 */
+.btnCss{
+    background: #F7F8FA;
+}
+.ant-table-column-title{
+    font-size: 17px;
+    font-weight: bold;
+}
+/* 操作按钮样式 */
+.fix-action{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+.ant-checkbox-inner{
+   background-color: #F7F8FA;
+}
+.ant-checkbox-checked .ant-checkbox-inner{
+    background-color: #CC148A;
+}
+a{
+    color: #CC148A;
+}

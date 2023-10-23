@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Source Han Sans CN';
+    src: url('SourceHanSansCN-Regular.eot');
+    src: url('SourceHanSansCN-Regular.eot?#iefix') format('embedded-opentype'),
+        url('SourceHanSansCN-Regular.woff') format('woff'),
+        url('SourceHanSansCN-Regular.ttf') format('ttf'),
+        url('SourceHanSansCN-Regular.svg#SourceHanSansCN-Regular') format('svg');
+    /* font-weight: 100; */
+    font-style: normal;
+    /* font-display: swap; */
+}
+

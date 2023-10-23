@@ -1,0 +1,123 @@
+/*.current-num {
+  position: relative;
+  margin: auto;
+  background: url(../border_bg01.png) top left no-repeat;
+}
+
+.current-num > div {
+  width: 100%;
+  line-height: 0.8rem;
+  text-align: center;
+  font-size: 0.2rem;
+  color: #0e94ea;
+  background-size: 1.8rem 0.25rem;
+  font-weight: 900;
+}
+
+.current-num > p {
+  font-size: 3rem;
+  text-align: center;
+  color: white;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.dashboard_title {
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: #0e94ea;
+  font-weight: 900;
+  padding: 1.5rem 0 0 0.5rem;
+}
+
+.dashbord_box {
+  position: relative;
+  background-image: url(../border_bg01.png);
+  background-size: 100% 100%;
+  min-height: 100px;
+}
+
+.dashboard_count {
+  font-size: 3rem;
+  text-align: center;
+  color: white;
+  padding-bottom: 1rem;
+}
+
+.title-box {
+  width: 4.9rem;
+  height: 0.42rem;
+  background: url(../box_title.png) top left no-repeat;
+  background-size: 100% 100%;
+  margin: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  position: relative;
+}
+
+.color-white {
+  color: #cdddf7;
+}
+
+.pop-data-box {
+  background-image: url(../../assets/bg_img04.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  color: rgb(205, 221, 247);
+  font-size: 3rem;
+}
+.pop-data-box p {
+  color: #cdddf7;
+}
+
+.center-title {
+  background-image: url(../title_border1.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 4rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.select-box {
+  background-color: transparent;
+  color: rgb(205, 221, 247);
+  border-color: #0e94ea;
+  border-radius: 4px;
+}
+
+.select-box > option {
+  background-color: #142334;
+}
+
+.border-both {
+  border-left: 1px solid #0e94ea;
+  border-right: 1px solid #0e94ea;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.corner-point {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.echarts > div {
+  padding: 10px !important;
+}*/

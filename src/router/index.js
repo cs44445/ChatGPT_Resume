@@ -1,29 +1,20 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import LoginView from '../views/LoginView.vue'
+import Router from 'vue-router'
+import { constantRouterMap } from '@/config/router.config'
+let originPush =  Router.prototype.push;  //备份原push方法
+ 
+Router.prototype.push = function (location, resolve, reject){
+    if (resolve && reject) {    //如果传了回调函数，直接使用
+        originPush.call(this, location, resolve, reject);
+    }else {                     //如果没有传回调函数，手动添加
+        originPush.call(this, location, ()=>{}, ()=>{}); 
+    }
+}
+Vue.use(Router)
 
-Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: '/',
-    name: 'login',
-    component: LoginView
-  },
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (login.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue')
-  // }
-]
-
-const router = new VueRouter({
+export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
 })
-
-export default router
