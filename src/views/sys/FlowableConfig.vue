@@ -6,7 +6,7 @@
           <template #tab><span class="first-tab">流程设置</span></template>
         </a-tab-pane>
 
-        <a-tab-pane key="2" tab="流程类型" force-render>
+        <!-- <a-tab-pane key="2" tab="流程类型" force-render>
           <flow-proc-busi-list/>
         </a-tab-pane>
 
@@ -16,11 +16,11 @@
 
         <a-tab-pane key="4" tab="流程配置">
           <flow-proc-task-config-list/>
-        </a-tab-pane>
+        </a-tab-pane> -->
 
-        <a-tab-pane key="5" tab="所有待办">
+        <!-- <a-tab-pane key="5" tab="所有待办">
           <bus-appr-list/>
-        </a-tab-pane>
+        </a-tab-pane> -->
 
       </a-tabs>
         <!-- <div class="image-group-share">
@@ -42,18 +42,14 @@
 
 <script>
 
-import FlowProcBusiList from '@views/flowable/FlowProcBusiList'
-import FlowProcessDefinitionList from '@views/flowable/FlowProcessDefinitionList'
-import FlowProcTaskConfigList from '@views/flowable/FlowProcTaskConfigList'
-import BusApprList from '@views/bus/BusApprList'
+// import FlowProcessDefinitionList from '@views/flowable/FlowProcessDefinitionList'
+// import FlowProcTaskConfigList from '@views/flowable/FlowProcTaskConfigList'
 
 export default {
   name: 'Home',
   components: {
-      FlowProcBusiList,
-      FlowProcessDefinitionList,
-      FlowProcTaskConfigList,
-      BusApprList,
+      // FlowProcessDefinitionList,
+      // FlowProcTaskConfigList,
   },
   data() {
     return {

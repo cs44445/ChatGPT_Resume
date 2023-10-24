@@ -1,5 +1,5 @@
 <template>
-  <a-dropdown v-if="syncToApp && syncToLocal">
+  <a-dropdown v-if="ToApp && syncToLocal">
     <a-button type="primary" icon="sync">同步{{name}}</a-button>
     <a-menu slot="overlay" @click="handleMenuClick">
       <a-menu-item v-if="syncToApp" key="to-app">同步到{{name}}</a-menu-item>

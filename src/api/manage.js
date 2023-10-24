@@ -31,11 +31,20 @@ export function myPostAction(url,parameter) {
 }
 
 //post
-export function postAction(url,parameter) {
+export function postAction(url,parameter,type) {
   let sign = signMd5Utils.getSign(url, parameter);
   //将签名和时间戳，添加在请求接口 Header
   let signHeader = {"X-Sign": sign,"X-TIMESTAMP": signMd5Utils.getDateTimeToString()};
 
+  if(type === 'gpt')
+  return axios({
+    url: url,
+    method:'post' ,
+    data: parameter,
+    headers: signHeader,
+    type: 'gpt'
+  })
+  else 
   return axios({
     url: url,
     method:'post' ,
@@ -68,11 +77,20 @@ export function putAction(url,parameter) {
 }
 
 //get
-export function getAction(url,parameter) {
+export function getAction(url,parameter,type) {
   let sign = signMd5Utils.getSign(url, parameter);
   //将签名和时间戳，添加在请求接口 Header
   let signHeader = {"X-Sign": sign,"X-TIMESTAMP": signMd5Utils.getDateTimeToString()};
 
+  if(type === 'gpt')
+  return axios({
+    url: url,
+    method: 'get',
+    params: parameter,
+    headers: signHeader,
+    type: 'gpt'
+  })
+  else
   return axios({
     url: url,
     method: 'get',

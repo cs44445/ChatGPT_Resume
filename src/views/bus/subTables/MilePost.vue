@@ -176,29 +176,4 @@ export default {
 .anty-row-operator button {
   margin: 0 5px;
 }
-::v-deep .ant-table-small > .ant-table-content > .ant-table-fixed-right > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-thead > tr > th {
-    background-color: #F7F8FA;
-}
-::v-deep .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td{
-  /* .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td */
-  background: #fff !important;
-}
-::v-deep .ant-table-tbody > tr > td{
-  background: #F7F8FA;
-}
-::v-deep .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td{
-  background: #fff;
-}
-::v-deep .ant-table-thead > tr > th{
-  background: #F7F8FA;
-}
-::v-deep .ant-table-bordered .ant-table-tbody > tr > td , ::v-deep .ant-table-small.ant-table-bordered .ant-table-content {
-   border-right: none; 
-}
-::v-deep .ant-table-bordered .ant-table-thead > tr > th{
-  border-right: none;
-}
-::v-deep .ant-table-small > .ant-table-content > .ant-table-body > table > .ant-table-thead > tr > th{
-  background: #F7F8FA;
-}
 </style>

@@ -46,8 +46,7 @@ const queryPermissionRule = (params) => getAction("/sys/permission/queryPermissi
 
 // 部门管理
 const queryDepartTreeList = (params) => getAction("/sys/sysDepart/queryTreeList", params);
-// const queryDepartTreeLists = (params) => getAction("/sys/sysDepart/queryTreeLists", params);
-const queryDepartTreeLists = (params) => getAction("/sys/user/queryTreeListByCcc", params);
+const queryDepartTreeLists = (params) => getAction("/sys/sysDepart/queryTreeLists", params);
 const queryDepartTreeSync = (params) => getAction("/sys/sysDepart/queryDepartTreeSync", params);
 const queryIdTree = (params) => getAction("/sys/sysDepart/queryIdTree", params);
 const queryParentName = (params) => getAction("/sys/sysDepart/queryParentName", params);

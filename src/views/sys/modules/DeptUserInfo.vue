@@ -7,7 +7,7 @@
         <a-row :gutter="10">
           <a-col :md="10" :sm="12">
             <a-form-item label="用户名" style="margin-left:8px">
-              <a-input placeholder="请输入用户名" v-model="queryParam.realName"></a-input>
+              <a-input placeholder="请输入用户名" v-model="queryParam.username"></a-input>
             </a-form-item>
           </a-col>
           <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
@@ -129,26 +129,14 @@
             dataIndex: 'realname'
           },
           {
-            title: 'CCC',
-            dataIndex: 'ccc'
+            title: '单位',
+            dataIndex: 'orgCode'
           },
           {
-            title: 'CCC名称',
-            dataIndex: 'cccName'
+            title: '是否负责人',
+            dataIndex: 'personType',
+            scopedSlots: {customRender: 'person'},
           },
-          {
-            title: '经理',
-            dataIndex: 'manage'
-          },
-          // {
-          //   title: '单位',
-          //   dataIndex: 'orgCode'
-          // },
-          // {
-          //   title: '是否负责人',
-          //   dataIndex: 'personType',
-          //   scopedSlots: {customRender: 'person'},
-          // },
           {
             title: '性别',
             dataIndex: 'sex_dictText'
@@ -165,8 +153,7 @@
           // }
         ],
         url: {
-          // list: "/sys/user/departUserList",
-          list: "/sys/user/getUserByCcc",
+          list: "/sys/user/departUserList",
           edit: "/sys/user/editSysDepartWithUser2",
           delete: "/sys/user/deleteUserInDepart",
           deleteBatch: "/sys/user/deleteUserInDepartBatch",
@@ -192,8 +179,7 @@
         }
         //if (this.currentDeptId === '') return;
         let params = this.getQueryParams();//查询条件
-
-        params.ccc = this.currentDeptId;
+        params.depId = this.currentDeptId;
         getAction(this.url.list, params).then((res) => {
           if (res.success && res.result) {
             this.dataSource = res.result.records;
@@ -208,7 +194,7 @@
           return
         }
         if (!this.currentDeptId) {
-          this.$message.error("未选中任何CCC，无法取消单位与用户的关联!")
+          this.$message.error("未选中任何单位，无法取消单位与用户的关联!")
           return
         }
 
@@ -245,7 +231,7 @@
           return
         }
         if (!this.currentDeptId) {
-          this.$message.error("未选中任何CCC，无法取消单位与用户的关联!")
+          this.$message.error("未选中任何单位，无法取消单位与用户的关联!")
           return
         }
 
@@ -269,8 +255,7 @@
       },
       open(record) {
         //console.log(record);
-        // this.currentDeptId = record.id;
-        this.currentDeptId = record.ccc;
+        this.currentDeptId = record.id;
         this.currentDept = record;
         this.loadData(1);
       },

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1 style="text-align:center;margin-bottom: 30px;">简历评分系统</h1>
+      <h1 style="text-align:center;margin-bottom: 30px;">Centific-GPT</h1>
       <a-form-model ref="form" :model="model" :rules="validatorRules">
         <a-form-model-item required prop="username">
           <a-input v-model="model.username" size="large" placeholder="请输入用户名">
@@ -146,10 +146,8 @@
             }
             console.log("登录参数", loginParams)
             this.Login(loginParams).then((res) => {
-              console.log('res0000000000',res)
               this.$emit('success', res.result)
             }).catch((err) => {
-              console.log('res1111111111',err)
               this.$emit('fail', err)
             });
           }else{

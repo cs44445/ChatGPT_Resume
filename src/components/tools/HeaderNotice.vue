@@ -114,8 +114,8 @@
     },
     mounted() {
       this.checkPwd()
-      this.loadData();
-      this.timerFun();
+      // this.loadData();
+      //this.timerFun();
       // this.initWebSocket();
       // this.heartCheckFun();
     },
@@ -153,35 +153,35 @@
           this.loadData()
         },6000 * 10)
       },
-      loadData (){
-        try {
-          // 获取系统消息
-          getAction(this.url.noticeList).then((res) => {
-            if (res.success) {
-              this.announcement1 = res.result.anntMsgList;
-              this.msg1Count = res.result.anntMsgTotal;
-              this.msg1Title = "提醒消息(" + res.result.anntMsgTotal + ")";
-
-              this.announcement2 = res.result.sysMsgList;
-              this.msg2Count = res.result.sysMsgTotal;
-              this.msg2Title = "通知(" + res.result.sysMsgTotal + ")";
-
-
-              // this.announcement2 = res.result.sysMsgList;
-              // this.msg2Count = res.result.sysMsgTotal;
-              // this.msg2Title = "通知(" + res.result.sysMsgTotal + ")";
-
-            }
-          }).catch(error => {
-            console.log("系统消息通知异常",error);//这行打印permissionName is undefined
-            this.stopTimer = true;
-            console.log("清理timer");
-          });
-        } catch (err) {
-          this.stopTimer = true;
-          console.log("通知异常",err);
-        }
-      },
+      // loadData (){
+      //   try {
+      //     // 获取系统消息
+      //     getAction(this.url.noticeList).then((res) => {
+      //       if (res.success) {
+      //         this.announcement1 = res.result.anntMsgList;
+      //         this.msg1Count = res.result.anntMsgTotal;
+      //         this.msg1Title = "提醒消息(" + res.result.anntMsgTotal + ")";
+      //
+      //         this.announcement2 = res.result.sysMsgList;
+      //         this.msg2Count = res.result.sysMsgTotal;
+      //         this.msg2Title = "通知(" + res.result.sysMsgTotal + ")";
+      //
+      //
+      //         // this.announcement2 = res.result.sysMsgList;
+      //         // this.msg2Count = res.result.sysMsgTotal;
+      //         // this.msg2Title = "通知(" + res.result.sysMsgTotal + ")";
+      //
+      //       }
+      //     }).catch(error => {
+      //       console.log("系统消息通知异常",error);//这行打印permissionName is undefined
+      //       this.stopTimer = true;
+      //       console.log("清理timer");
+      //     });
+      //   } catch (err) {
+      //     this.stopTimer = true;
+      //     console.log("通知异常",err);
+      //   }
+      // },
       fetchNotice () {
         if (this.loadding) {
           this.loadding = false
@@ -331,12 +331,12 @@
       showDetail(key,data){
         this.$notification.close(key);
         var id = data.msgId;
-        getAction(this.url.queryById,{id:id}).then((res) => {
-          if (res.success) {
-            var record = res.result;
-            this.showAnnouncement(record);
-          }
-        })
+        // getAction(this.url.queryById,{id:id}).then((res) => {
+        //   if (res.success) {
+        //     var record = res.result;
+        //     this.showAnnouncement(record);
+        //   }
+        // })
 
       },
     }

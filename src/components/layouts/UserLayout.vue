@@ -24,7 +24,7 @@
           <a href="https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE" target="_blank">条款</a>
         </div> -->
         <div class="copyright" style="color:#999">
-          Copyright &copy; 2022 <a href="#" target="_blank"  style="color:#999">简历评分系统</a>
+          Copyright &copy; 2022 <a href="#" target="_blank"  style="color:#999">项目管理平台</a>
         </div>
       </div>
     </div>

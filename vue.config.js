@@ -14,6 +14,7 @@ module.exports = {
    */
   // 如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建。
   productionSourceMap: false,
+  transpileDependencies: ['/marked/'],
   //打包app时放开该配置
   //publicPath:'./',
   configureWebpack: config => {
@@ -37,11 +38,11 @@ module.exports = {
       .set('@views', resolve('src/views'))
 
       	//修改vue.config.js
-        config.set('externals', {
-          vue: 'Vue',
-          axios: 'axios',
-          'tinymce': 'tinymce'
-        })
+        // config.set('externals', {
+        //   vue: 'Vue',
+        //   axios: 'axios',
+        //   'tinymce': 'tinymce'
+        // })
 
     //生产环境，开启js\css压缩
     if (process.env.NODE_ENV === 'production') {
@@ -86,7 +87,7 @@ module.exports = {
         modifyVars: {
           /* less 变量覆盖，用于自定义 ant design 主题 */
           'primary-color': '#CC148A',
-          'link-color': '#3055BA',
+          'link-color': '#CC148A',
           'border-radius-base': '4px',
         },
         javascriptEnabled: true,

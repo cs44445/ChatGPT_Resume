@@ -257,16 +257,16 @@
           //   dataIndex: 'avatar',
           //   scopedSlots: {customRender: "avatarslot"}
           // },
-          // {
-          //   title: '部门',
+          {
+            title: '部门',
 
-          //   dataIndex: 'orgCodeTxt'
-          // },
-          // {
-          //   title: '是否负责人',
-          //   dataIndex: 'personType',
-          //   scopedSlots: {customRender: 'person'},
-          // },
+            dataIndex: 'orgCodeTxt'
+          },
+          {
+            title: '是否负责人',
+            dataIndex: 'personType',
+            scopedSlots: {customRender: 'person'},
+          },
           // {
           //   title: '职级',
           //   dataIndex: 'post'
@@ -304,16 +304,6 @@
             title: 'CCC',
 
             dataIndex: 'ccc'
-          },
-          {
-            title: 'CCC名称',
-
-            dataIndex: 'cccName'
-          },
-          {
-            title: '经理',
-
-            dataIndex: 'manage'
           },
           {
             title: '状态',

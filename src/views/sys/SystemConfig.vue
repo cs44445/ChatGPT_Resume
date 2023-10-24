@@ -52,11 +52,6 @@
 </template>
 
 <script>
-
-import BusManpowerCost from '@views/bus/BusManpowerCost'
-import BusOverTimeTemplateList from '@views/bus/BusOverTimeTemplateList'
-import BusPlanLaborCostRoleList from '@views/bus/BusPlanLaborCostRoleList'
-import BusHolidayList from '@views/bus/BusHolidayList'
 import DictList from '@views/system/DictList'
 import PermissionList from '@views/system/PermissionList'
 import RoleList from '@views/system/RoleList'
@@ -64,10 +59,6 @@ import RoleList from '@views/system/RoleList'
 export default {
   name: 'Home',
   components: {
-      BusManpowerCost,
-      BusOverTimeTemplateList,
-      BusPlanLaborCostRoleList,
-      BusHolidayList,
       DictList,
       PermissionList,
       RoleList

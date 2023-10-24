@@ -114,6 +114,7 @@ service.interceptors.request.use(config => {
       }
     }
   }
+  if (config.type === 'gpt') config.baseURL = window._CONFIG['uploadFileURL']
   return config
 },(error) => {
   return Promise.reject(error)

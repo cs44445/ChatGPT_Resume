@@ -1,38 +1,37 @@
 <template>
   <div class="index-container-ty">
     <div class="index-tab">
-      <a-tabs default-active-key="2" :active-key="tabKey" @change="callback" class="index-tab" :tabBarGutter="5">
+      <a-tabs default-active-key="1" :active-key="tabKey" @change="callback" class="index-tab" :tabBarGutter="5">
         <a-tab-pane key="1" disabled>
-          <template #tab><span class="first-tab">快速问答</span></template>
+          <template #tab><span class="first-tab">简历管理</span></template>
+          <chatgpt-child></chatgpt-child>
         </a-tab-pane>
-        
+       
       </a-tabs>
 
-
     </div>
-    <!-- <a-spin :spinning="loading">
-      111
-    </a-spin> -->
-
+    
   </div>
 </template>
 
 <script>
 
+
 import { USER_AUTH } from '@/store/mutation-types'
+import ChatgptChild from './ChatgptChild.vue'
 
 export default {
-  name: 'Home',
+  name: 'Chatgpt',
   components: {
+    ChatgptChild
   },
   data() {
     return {
       loading: false,
       myWorkhours: false,
-      roleContent: "",
       url: {
       },
-      tabKey:'2'
+      tabKey:'1'
     }
   },
   computed: {
@@ -112,6 +111,12 @@ export default {
   &:hover {
     cursor: default;
   }
+}
+/deep/ .ant-tabs-ink-bar {
+  background-color: #e8e8e800;
+}
+/deep/ .ant-tabs-tab-disabled {
+  border-right: 1px solid #e8e8e8;
 }
 .index-tab /deep/ .ant-tabs-bar {
   position: fixed;

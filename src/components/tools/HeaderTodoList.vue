@@ -10,7 +10,6 @@
         <img src="~@/assets/todolist.png" alt="logo" style="width: 20px;height: 20px;"/>
       </a-badge>
     </span>
-    <bus-todo-list ref="busTodoList"></bus-todo-list>
   </a-tooltip>
   
 </template>
@@ -18,11 +17,9 @@
 <script>
 import Vue from 'vue'
 import { getAction } from '@/api/manage'
-import BusTodoList from '@views/bus/modules/BusTodoList'
 
 export default {
   name: "HeaderTodoList",
-  components: {BusTodoList},
   data() { 
     return {
       url: {

@@ -21,12 +21,6 @@
         <a-tab-pane key="4" tab="职级管理">
           <sys-position-list/>
         </a-tab-pane>
-        <a-tab-pane key="6" tab="职务管理">
-          <sys-post-list/>
-        </a-tab-pane>
-        <a-tab-pane key="7" tab="供应商职位管理">
-          <sys-supplier-position-list/>
-        </a-tab-pane>
 
       </a-tabs>
         <!-- <div class="image-group-share">
@@ -51,9 +45,6 @@
 import TeamList from '@views/sys/TeamList'
 import UserList from '@views/system/UserList'
 import SysPositionList from '@views/system/SysPositionList'
-import SysSupplierPositionList from '@views/system/SysSupplierPositionList'
-
-import SysPostList from '@views/system/SysPostList'
 import LeaveList from '@views/system/LeaveList'
 export default {
   name: 'Home',
@@ -62,8 +53,6 @@ export default {
       UserList,
       SysPositionList,
       LeaveList,
-      SysPostList,
-      SysSupplierPositionList,
   },
   data() {
     return {

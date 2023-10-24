@@ -54,17 +54,6 @@
           <j-dict-select-tag :disabled="disableSubmit" v-model="model.post" placeholder="请选择职级" dictCode="sys_position,post_rank,code" />
           <!-- <j-select-position placeholder="请选择职级" :disabled="disableSubmit" :multiple="false" v-model="model.post"/> -->
         </a-form-model-item>
-        <a-form-model-item label="职务" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="dutiesName">
-          <!-- <j-dict-select-tag :disabled="disableSubmit" v-model="model.dutiesName" placeholder="请选择职级" dictCode="duties_type" /> -->
-          <a-select
-            placeholder="请选择职务"
-            v-model="model.dutiesName"
-            :options="postOptions"
-            allowClear
-            :disabled="disableSubmit"
-            @change="handlePostChange"
-          />
-        </a-form-model-item>
 
         <a-form-model-item label="角色" :labelCol="labelCol" :wrapperCol="wrapperCol" v-show="!roleDisabled" prop="selectedroles">
           <!-- <a-select
@@ -83,9 +72,9 @@
         </a-form-model-item>
 
         <!--部门分配selecteddeparts-->
-        <!-- <a-form-model-item label="所属单位" :labelCol="labelCol" :wrapperCol="wrapperCol" v-show="!departDisabled" prop="selecteddeparts">
+        <a-form-model-item label="所属单位" :labelCol="labelCol" :wrapperCol="wrapperCol" v-show="!departDisabled" prop="selecteddeparts">
           <j-select-depart v-model="model.selecteddeparts" :multi="false" :disabled="disableSubmit" @back="backDepartInfo" :backDepart="true" ></j-select-depart>
-        </a-form-model-item> -->
+        </a-form-model-item>
 
         <!--租户分配-->
 <!--        <a-form-model-item label="租户分配" :labelCol="labelCol" :wrapperCol="wrapperCol" v-show="!departDisabled">-->
@@ -112,7 +101,7 @@
 <!--            placeholder="请选择负责单位">-->
 <!--          </j-multi-select-tag>-->
 <!--        </a-form-model-item>-->
-        <!-- <a-form-model-item label="是否单位负责人" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="personType">
+        <a-form-model-item label="是否单位负责人" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="personType">
           <a-select v-model="model.personType" placeholder="请选择" :disabled="disableSubmit">
             <a-select-option value="1">是</a-select-option>
             <a-select-option value="2">否</a-select-option>
@@ -123,15 +112,9 @@
             <a-select-option value="1">是</a-select-option>
             <a-select-option value="2">否</a-select-option>
           </a-select>
-        </a-form-model-item> -->
+        </a-form-model-item>
          <a-form-model-item label="CCC" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="ccc">
           <a-input  placeholder="请输入ccc" v-model="model.ccc"  :disabled="disableSubmit"/>
-        </a-form-model-item>
-        <a-form-model-item label="CCC名称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="cccName">
-          <a-input  placeholder="请输入ccc名称" v-model="model.cccName"  :disabled="disableSubmit"/>
-        </a-form-model-item>
-        <a-form-model-item label="经理" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="manage">
-          <a-input  placeholder="请输入直线经理的员工号" v-model="model.manage"  :disabled="disableSubmit"/>
         </a-form-model-item>
         <a-form-model-item label="年龄" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="age">
           <a-input  placeholder="请输入年龄" v-model="model.age"  :disabled="disableSubmit"/>
@@ -233,9 +216,9 @@
                   { validator: this.validateWorkNo }],
           telephone: [{ pattern: /^0\d{2,3}-[1-9]\d{6,7}$/, message: '请输入正确的座机号码' },],
           selectedroles: [{required: true, message: '请选择角色！'}],
-          // selecteddeparts: [{required: true, message: '请选择单位！'}],
-          // ifHasChildData: [{required: true, message: '请选择是否有下级单位数据权限！'}],
-          // personType: [{required: true, message: '请选择是否负责人！'}],
+          selecteddeparts: [{required: true, message: '请选择单位！'}],
+          ifHasChildData: [{required: true, message: '请选择是否有下级单位数据权限！'}],
+          personType: [{required: true, message: '请选择是否负责人！'}],
         },
         departIdShow:false,
         title:"操作",
@@ -257,12 +240,10 @@
           userWithDepart: "/sys/user/userDepartList", // 引入为指定用户查看部门信息需要的url
           userId:"/sys/user/generateUserId", // 引入生成添加用户情况下的url
           syncUserByUserName:"/act/process/extActProcess/doSyncUserByUserName",//同步用户到工作流
-          queryTenantList: '/sys/tenant/queryList',
-          postList:'/system/sysDuties/list'
+          queryTenantList: '/sys/tenant/queryList'
         },
         tenantsOptions: [],
         rolesOptions:[],
-        postOptions:[],
         nextDepartOptions:[],
         fileList:[]
       }
@@ -272,7 +253,6 @@
       this.headers = {"X-Access-Token":token}
       this.initRoleList()
       this.initTenantList()
-      this.initPostList()
     },
     computed:{
       uploadAction:function () {
@@ -353,21 +333,6 @@
             // console.log('this.tenantsOptions: ',this.tenantsOptions)
           }
         })
-      },
-      //初始化职务字典
-      initPostList(){
-        getAction(this.url.postList).then(res=>{
-          if(res.success){
-            this.postOptions = res.result.records.map((item,index,arr)=>{
-              let c = {label:item.dutiesName, value:item.dutiesName, key: item.id+""}
-              return c;
-            })
-            // console.log('this.tenantsOptions: ',this.tenantsOptions)
-          }
-        })
-      },
-      handlePostChange(value, option) {
-        this.model.duties_id =option.data.key
       },
       //初始化角色字典
       initRoleList(){

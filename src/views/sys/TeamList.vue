@@ -4,13 +4,13 @@
       <a-card :bordered="false" >
         <!-- 按钮操作区域 -->
         <a-row style="margin-left: 14px">
-          <!-- <a-button @click="handleAdd(1)" type="primary" icon="plus">添加单位</a-button> -->
+          <a-button @click="handleAdd(1)" type="primary" icon="plus">添加单位</a-button>
           <!-- <a-button @click="handleAdd(2)" type="primary">添加下级</a-button>
           <a-button type="primary" icon="download" @click="handleExportXls('团队信息')">导出</a-button>
           <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
             <a-button type="primary" icon="import">导入</a-button>
           </a-upload> -->
-          <!-- <a-button title="删除多条数据" @click="delTeam" type="default">删除单位</a-button> -->
+          <a-button title="删除多条数据" @click="delTeam" type="default">删除单位</a-button>
           <!--<a-button @click="refresh" type="default" icon="reload" :loading="loading">刷新</a-button>-->
         </a-row>
         <div style="background: #fff; padding-left: 16px; height: 100%; margin-top: 5px">
@@ -42,23 +42,16 @@
                     :expandedKeys="iExpandedKeys"
                     :autoExpandParent="autoExpandParent"
                     @expand="onExpand"
-                  > 
-
-                  <!-- <a-tree :tree-data="treeData" > -->
-
+                  >
                     <!-- <a-tree :tree-data="treeData" show-icon default-expand-all :default-selected-keys="['0-0-0']"> -->
                     <!-- <a-icon slot="switcherIcon" type="down" /> -->
                     <!-- <a-icon slot="switcherIcon" type="plus-square" /> -->
                     <!-- <a-icon slot="child" type="line" /> -->
-
                     <img src="@/assets/dot2.png" slot="child" style="margin-right: 0px" width="10px" />
-                    
                     <!-- <a-icon type="ellipsis" /> -->
                     <!-- <a-icon type="line" /> -->
                     <!-- <a-icon slot="parent" type="down" /> -->
-
                     <a-icon slot="smile" type="team" />
-                    
                     <!--<a-icon slot="switcherIcon" type="down" /> -->
                   </a-tree>
                 </span>
@@ -96,12 +89,9 @@
         <a-tab-pane tab="基本信息" key="1">
           <a-card :bordered="false" v-if="selectedKeys.length > 0">
             <a-form-model ref="form" :model="model" :rules="validatorRules">
-              <a-form-model-item :labelCol="labelCol" :wrapperCol="wrapperCol" prop="cccName" label="CCC名称">
-                <a-input placeholder="请输入单位名称" v-model="model.cccName" disabled/>
-              </a-form-model-item>
-              <!-- <a-form-model-item :labelCol="labelCol" :wrapperCol="wrapperCol" prop="departName" label="单位名称">
+              <a-form-model-item :labelCol="labelCol" :wrapperCol="wrapperCol" prop="departName" label="单位名称">
                 <a-input placeholder="请输入单位名称" v-model="model.departName" />
-              </a-form-model-item> -->
+              </a-form-model-item>
               <!-- <a-form-model-item  :labelCol="labelCol" :wrapperCol="wrapperCol"  label="负责人">
                 <a-input placeholder="请选择负责人" v-model="model.leaderId"/>
               </a-form-model-item> -->
@@ -175,8 +165,8 @@
               </a-form-model-item> -->
             </a-form-model>
             <div class="anty-form-btn">
-              <!-- <a-button @click="emptyCurrForm" type="default" htmlType="button" icon="sync">重置</a-button>
-              <a-button @click="submitCurrForm" type="primary" htmlType="button" icon="form">保存</a-button> -->
+              <a-button @click="emptyCurrForm" type="default" htmlType="button" icon="sync">重置</a-button>
+              <a-button @click="submitCurrForm" type="primary" htmlType="button" icon="form">保存</a-button>
             </div>
           </a-card>
           <a-card v-else>
@@ -265,7 +255,7 @@ export default {
       currFlowId: '',
       currFlowName: '',
       disable: true,
-      // treeData: [],
+      treeData: [],
       visible: false,
       departTree: [],
       rightClickSelectedKey: '',
@@ -345,20 +335,12 @@ export default {
           this.allTreeKeys = []
           for (let i = 0; i < res.result.length; i++) {
             let temp = res.result[i]
-            temp.slots = {
-            "icon":"smile"
-            }
-            temp.scopedSlots={
-            "switcherIcon":"child"
-            }
-            // temp.isLeaf=false
-
             // temp.slots = {icon: 'smile'},
-            // that.treeData.push(temp)
+            that.treeData.push(temp)
             that.departTree.push(temp)
             that.setThisExpandedKeys(temp)
             that.getAllKeys(temp)
-            console.log(temp.id)
+            // console.log(temp.id)
           }
           this.loading = false
         }

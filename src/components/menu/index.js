@@ -2,7 +2,7 @@ import Menu from 'ant-design-vue/es/menu'
 import Icon from 'ant-design-vue/es/icon'
 
 const { Item, SubMenu } = Menu
-    
+
 export default {
   name: 'SMenu',
   props: {
@@ -154,23 +154,29 @@ export default {
       const txtColor = {
         marginLeft: '10px'
       }
-
+      // return (
+      //   <Item {...{ key: menu.path }}>
+      //     <tag {...{ props, attrs }}>
+      //       {/* {this.renderIcon(menu.meta.icon)} */}
+      //       <span style="width:35px;height:35px;border-radius:50%;display:flex;align-items: center;justify-content: center;margin:6px 10px 0 0">
+      //         <object data={require('../../assets/menuIcon/' + 'index' + '.svg')} class={test}></object>
+      //         <object data={require('../../assets/menuIcon/' + 'index' + '-trans.svg')} ></object>
+      //       </span>
+      //       <span  style="overflow: hidden;text-overflow: ellipsis;width:61%">{menu.meta.title}
+      //           {/* <a-badge count={menu.meta.taskTotal} number-style={txtColor} /> */}
+      //       </span>
+      //     </tag>
+      //   </Item>
+      // )
       if (!menu.children) {
         return (
            <Item {...{ key: menu.path }}>
             <tag {...{ props, attrs }} style="display:flex;align-items: center;">
-              {
-                this.collapsed ? 
-                <span style="width:40px;height:35px;border-radius:50%;display:flex;align-items: center;justify-content: center;">
-                  <object data={require('../../assets/menuIcon/' + menu.meta.newIcon + '.svg')} style={menu.path == this.selectedKeys[0] ? 'display:none':'display:block'}></object>
-                  <object data={require('../../assets/menuIcon/' + menu.meta.newIcon + '-trans.svg')} style={menu.path == this.selectedKeys[0] ? 'display:block':'display:none'} ></object>
-                </span>:
-                <span style="width:35px;height:35px;border-radius:50%;display:flex;align-items: center;justify-content: center;">
-                  <object data={require('../../assets/menuIcon/' + menu.meta.newIcon + '.svg')}></object>
-                  <object data={require('../../assets/menuIcon/' + menu.meta.newIcon + '-trans.svg')}></object>
-                </span>
-              }
-              
+              {/* {this.renderIcon(menu.meta.icon)} */}
+              <span style="width:35px;height:35px;border-radius:50%;display:flex;align-items: center;justify-content: center;">
+                <object data={require('../../assets/menuIcon/' + menu.meta.newIcon + '.svg')}></object>
+                <object data={require('../../assets/menuIcon/' + menu.meta.newIcon + '-trans.svg')} ></object>
+              </span>
               <span style="overflow: hidden;text-overflow: ellipsis;width:61%">{menu.meta.title}</span>
             </tag>
           </Item>
@@ -234,7 +240,7 @@ export default {
       },
       openChange: this.onOpenChange
     }
-    
+
     const menuTree = menu.map(item => {
       if (item.hidden) {
         return null

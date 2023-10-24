@@ -1,6 +1,6 @@
 <template>
   <div>
-    <j-modal :title="title" :width="1130" :visible="visible" :maskClosable="false" @cancel="handleCancel">
+    <j-modal :title="title" :width="1000" :visible="visible" :maskClosable="false" @cancel="handleCancel">
       <a-card :bordered="false">
         <div class="person-header">
           <div class="person-img" :style="{ backgroundColor: bgColor(sysUser.realname) }">
@@ -15,7 +15,7 @@
               <div>
                 <a-icon type="phone" class="base-icon" /><span>{{ sysUser.telephone ? sysUser.telephone : sysUser.phone }}</span>
               </div>
-              <div  v-if="isShow">
+              <div>
                 <a-icon type="team" class="base-icon" /><span>{{ sysUser.departName ? sysUser.departName : '暂无' }}</span>
               </div>
             </div>
@@ -46,7 +46,7 @@
                       <div>{{ sysUser.telephone ? sysUser.telephone : sysUser.phone }}</div>
                     </div>
                   </div>
-                  <div class="info-mail"  v-if="isShow">
+                  <div class="info-mail">
                     <div class="info-icon">
                       <a-icon type="team" />
                     </div>
@@ -67,7 +67,7 @@
                 </div>
               </div>
             </a-tab-pane>
-            <a-tab-pane key="2" tab="组织" force-render v-if="isShow">
+            <a-tab-pane key="2" tab="组织" force-render>
               <div class="org-container">
                 <div class="org-header" v-if="topUserList">
                   <div
@@ -83,8 +83,7 @@
                     <div v-else class="header-img"><img src="@/assets/head.png" alt="" /></div>
                     <div class="header-content">
                       <p>{{ item.name }}</p>
-                      <p>{{ item.dutiesName }}</p>
-                      <p style="font-size: 14px;">{{ item.cccName }}</p>
+                      <p>{{ item.dep }}</p>
                       <!-- <p>{{ item.post }}</p> -->
                     </div>
                     <div class="header-next" v-show="nextShow(index)">
@@ -115,8 +114,8 @@
                         <div v-else class="m-con-img"><img src="@/assets/head.png" alt="" /></div>
                         <div class="m-con-content">
                           <p>{{ items.name }}</p>
-                          <p>{{ items.dutiesName }}</p>
-                      <p style="font-size: 14px;">{{ items.cccName }}</p>
+                          <p>{{ items.dep }}</p>
+                          <!-- <p>{{ items.post }}</p> -->
                         </div>
                       </div>
                     </div>
@@ -128,8 +127,8 @@
               </div>
             </a-tab-pane>
             <a-tab-pane key="3" tab="个人总结" force-render>
-              <a-table
-              :columns="percolumns"
+              <a-table 
+              :columns="percolumns" 
               :data-source="perdata" :pagination="false"
               class="components-table-demo-nested"
               @expand="handleExpand">
@@ -140,7 +139,7 @@
                   :data-source="innerData"
                   :pagination="false"
                 >
-
+                
                 <template slot="projectName" slot-scope="text,record">
                   <a  @click="handleSummaryDetail(text,record)">{{ record.projectName }}</a>
                 </template>
@@ -157,7 +156,7 @@
       </template>
     </j-modal>
     <a-modal
-      title="简历评分系统"
+      title="项目管理平台"
       :visible="detailvisible"
       :confirm-loading="confirmLoading"
       @ok="handleOk" :width="1100"
@@ -181,19 +180,19 @@
 import { getAction } from '@/api/manage'
 export default {
   name: 'Organization',
-  props: {
-    isShow:{
-      require:false,
-      default:true,
-      type: Boolean,
-    }
-  },
+  // props: {
+  //   userId: {
+  //     type: String,
+  //     default: 'e9ca23d68d884d4ebb19d07889727dae',
+  //     // required: true,
+  //   },
+  // },
   data() {
     return {
       userId: '',
       title: '',
       visible: false,
-      url: '/sys/user/userTreeList',
+      url: '/sys/user/userTree',
       sysUser: {}, //用户信息
       //组织信息
       topUserList: [
@@ -215,10 +214,10 @@ export default {
       { title: '非项目工时(h)', dataIndex: 'noProjectWorkHours', key: 'noProjectWorkHours' },
       { title: '总加班工时(h)', dataIndex: 'sumOverTimeHours', key: 'sumOverTimeHours' },
       { title: '请假/调休(h)', dataIndex: 'leaveHours', key: 'leaveHours' },
-      // { title: '需求指派', dataIndex: 'taskAppoint', key: 'taskAppoint' },
-      { title: '已处理任务', dataIndex: 'taskHandle', key: 'taskHandle' },
-      // { title: 'BUG指派', dataIndex: 'bugAppoint', key: 'bugAppoint' },
-      // { title: 'BUG处理', dataIndex: 'bugHandle', key: 'bugHandle' },
+      { title: '需求指派', dataIndex: 'taskAppoint', key: 'taskAppoint' },
+      { title: '需求处理', dataIndex: 'taskHandle', key: 'taskHandle' },
+      { title: 'BUG指派', dataIndex: 'bugAppoint', key: 'bugAppoint' },
+      { title: 'BUG处理', dataIndex: 'bugHandle', key: 'bugHandle' },
       ],
       perdata:[],
       innerColumns:[
@@ -228,10 +227,10 @@ export default {
       { title: '总提交工时(h)', dataIndex: 'sumSubmitWorkHours', key: 'sumSubmitWorkHours' },
       { title: '总加班工时(h)', dataIndex: 'sumOverTimeHours', key: 'sumOverTimeHours' },
       { title: '请假/调休(h)', dataIndex: 'leaveHours', key: 'leaveHours' },
-      //{ title: '需求指派', dataIndex: 'taskAppoint', key: 'taskAppoint' },
-      { title: '已处理任务', dataIndex: 'taskHandle', key: 'taskHandle' },
-      // { title: 'BUG指派', dataIndex: 'bugAppoint', key: 'bugAppoint' },
-      // { title: 'BUG处理', dataIndex: 'bugHandle', key: 'bugHandle' },
+      { title: '需求指派', dataIndex: 'taskAppoint', key: 'taskAppoint' },
+      { title: '需求处理', dataIndex: 'taskHandle', key: 'taskHandle' },
+      { title: 'BUG指派', dataIndex: 'bugAppoint', key: 'bugAppoint' },
+      { title: 'BUG处理', dataIndex: 'bugHandle', key: 'bugHandle' },
       ],
       innerData:[],
       perUrl:{
@@ -248,10 +247,10 @@ export default {
       { title: '总提交工时(h)', dataIndex: 'sumSubmitWorkHours', key: 'sumSubmitWorkHours' },
       { title: '总加班工时(h)', dataIndex: 'sumOverTimeHours', key: 'sumOverTimeHours' },
       { title: '请假/调休(h)', dataIndex: 'leaveHours', key: 'leaveHours' },
-      //{ title: '需求指派', dataIndex: 'taskAppoint', key: 'taskAppoint' },
-      { title: '已处理任务', dataIndex: 'taskHandle', key: 'taskHandle' },
-      //{ title: 'BUG指派', dataIndex: 'bugAppoint', key: 'bugAppoint' },
-      //{ title: 'BUG处理', dataIndex: 'bugHandle', key: 'bugHandle' },
+      { title: '需求指派', dataIndex: 'taskAppoint', key: 'taskAppoint' },
+      { title: '需求处理', dataIndex: 'taskHandle', key: 'taskHandle' },
+      { title: 'BUG指派', dataIndex: 'bugAppoint', key: 'bugAppoint' },
+      { title: 'BUG处理', dataIndex: 'bugHandle', key: 'bugHandle' },
 
       ],
       detaildata:[],
@@ -259,10 +258,7 @@ export default {
     }
   },
   created() {
-    if(this.isShow){
-      this.getUserInfo(1, this.userId)
-    }
-      
+    this.getUserInfo(1, this.userId)
   },
   computed: {
     nextShow() {
@@ -283,10 +279,8 @@ export default {
   },
   watch: {
     userId: function (val) {
-      if(this.isShow){
-        this.getUserInfo(1, this.userId)
-      }
-        
+      // console.log(22, val)
+      this.getUserInfo(1, this.userId)
     },
   },
   methods: {
@@ -322,7 +316,7 @@ export default {
         }
         })
       }
-
+      
     },
     handlePersonalSummary(){
       getAction(this.perUrl.personalSummary,{userId:this.userId}).then(res=>{
@@ -333,50 +327,24 @@ export default {
         }
       })
     },
-    // async getUserInfo(key, userId) {
-    //   const resInfo = await getAction(this.url, { userId })
-    //   if (key == 1) {
-    //     if (resInfo.success) {
-    //       if( resInfo.result && resInfo.result.length>0){
-    //         this.sysUser = resInfo.result[0].sysUser
-    //       }else {
-    //         this.sysUser = {}
-    //       }          
-    //     } 
-    //   } else {
-    //     if (resInfo.success && resInfo.result) {
-    //       this.topUserList = resInfo.result[0].topUserList
-    //       this.userList = resInfo.result[0].userList
-    //     } else {
-    //       console.log(2222, resInfo)
-    //       this.topUserList = null
-    //       this.userList = null
-    //     }
-    //   }
-    // },
-    getUserInfo(key, userId) {
-      // const resInfo = getAction(this.url, { userId })
-      getAction(this.url, { userId }).then((res) => {
-        if (key == 1) {
-        if (res.success) {
-          if( res.result && res.result.length>0){
-            this.sysUser = res.result[0].sysUser
-          }else {
-            this.sysUser = {}
-          }          
-        } 
+    async getUserInfo(key, userId) {
+      const resInfo = await getAction(this.url, { userId })
+      if (key == 1) {
+        if (resInfo.success && resInfo.result.length>0) {
+          this.sysUser = resInfo.result[0].sysUser
+        } else {
+          this.sysUser = {}
+        }
       } else {
-        if (res.success && res.result) {
-          this.topUserList = res.result[0].topUserList
-          this.userList = res.result[0].userList
+        if (resInfo.success && resInfo.result) {
+          this.topUserList = resInfo.result[0].topUserList
+          this.userList = resInfo.result[0].userList
         } else {
           console.log(2222, resInfo)
           this.topUserList = null
           this.userList = null
         }
       }
-        })
-      
     },
     handleCancel() {
       this.visible = false
@@ -385,20 +353,14 @@ export default {
       if (key == 1) {
         // this.getUserInfo(1, this.userId)
       } else {
-          if(this.isShow){
-            this.getUserInfo(2, this.userId)
-          }          
-        }        
+        this.getUserInfo(2, this.userId)
+      }
     },
     changeOrg(item, index) {
-      if(this.isShow){
-        this.getUserInfo(2, item.id)
-      }
+      this.getUserInfo(2, item.id)
     },
     changeMember(item, index) {
-      if(this.isShow){
-        this.getUserInfo(2, item.id)
-      }
+      this.getUserInfo(2, item.id)
     },
   },
 }
@@ -552,11 +514,11 @@ export default {
   width: 27%;
 }
 .m-con-img1 {
-  width: 55px;
-    height: 55px;
-    font-size: 20px;
-    line-height: 50px;
-    margin-right: 15px;
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+  line-height: 35px;
+  margin-right: 15px;
 }
 .header-img img,
 .m-con-img img {

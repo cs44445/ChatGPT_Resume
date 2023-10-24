@@ -11,7 +11,7 @@
     <div class="copyright">
       Copyright
       <a-icon type="copyright"/>
-      2022 <span>简历评分系统</span>
+      2022 <span>项目管理平台</span>
     </div>
   </div>
 </template>
